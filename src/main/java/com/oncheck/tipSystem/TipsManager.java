@@ -57,7 +57,7 @@ class TipsManager {
 
             dbConnection.close();
 
-            //submitTip(tip);
+//            submitTip(tip);
 
         }
         catch (Exception e) {
