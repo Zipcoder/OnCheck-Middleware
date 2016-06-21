@@ -12,22 +12,22 @@ public class Restaurant {
     private Long id;
 
     @Column(name = "RESTAURANT_NAME")
-    private final String restaurantName;
+    private String restaurantName;
 
     @Column(name = "RESTAURANT_ADDRESS")
-    private final String restaurantAddress;
+    private String restaurantAddress;
 
     @Column(name = "CITY")
-    private final String city;
+    private String city;
 
     @Column(name = "ZIPCODE")
-    private final String zip;
+    private String zip;
 
     @Column
-    private final String county;
+    private String county;
 
     @Column(name = "RESTAURANT_ID")
-    private final String restaurantID;
+    private String restaurantID;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="Inspection_ID")
@@ -35,6 +35,9 @@ public class Restaurant {
 
     @Column
     private int onCheckScore;
+
+    Restaurant(){
+    }
 
 
     public Restaurant(String restaurantName, String restaurantAddress, String city,String zip, String county,String inspectionType,String inspectionDate,String violations){

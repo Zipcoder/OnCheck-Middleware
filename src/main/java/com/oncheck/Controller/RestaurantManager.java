@@ -18,7 +18,7 @@ public class RestaurantManager {
 
     @RequestMapping("/restaurants")
     public Iterable<Restaurant> getAllRestaurant(){
-        saveRestaurant("test","123 fake","wilmin","12345","chester","Other","1/2004/5","12321");
+        // TEST data saveRestaurant("test","123 fake","wilmin","12345","chester","Other","1/2004/5","12321");
         return restaurantRepository.findAll();
     }
 
