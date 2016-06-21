@@ -12,7 +12,7 @@ public class Inspection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Inspection_ID")
+    @Column(name = "INSPECTION_ID")
     private Long id;
 
     @Column(name = "TYPE")
@@ -27,7 +27,8 @@ public class Inspection {
     Inspection(){
 
     }
-    Inspection(String type, String date,String violations){
+
+    public Inspection(String type, String date,String violations){
         this.type = type;
         this.date = date;
         this.violations = violations;

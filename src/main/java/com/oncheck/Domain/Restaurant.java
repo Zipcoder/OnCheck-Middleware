@@ -30,7 +30,7 @@ public class Restaurant {
     private String restaurantID;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="Inspection_ID")
+    @JoinColumn(name="INSPECTION_ID")
     private Inspection inspections;
 
     @Column

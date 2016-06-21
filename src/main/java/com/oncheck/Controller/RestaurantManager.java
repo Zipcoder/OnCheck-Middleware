@@ -18,8 +18,13 @@ public class RestaurantManager {
 
     @RequestMapping("/restaurants")
     public Iterable<Restaurant> getAllRestaurant(){
-        // TEST data saveRestaurant("test","123 fake","wilmin","12345","chester","Other","1/2004/5","12321");
+        saveRestaurant("test","123 fake","wilmin","12345","chester","Other","1/2004/5","12321");
         return restaurantRepository.findAll();
+    }
+
+    @RequestMapping("/delRest")
+    public void deleteAllRestaurants(){
+        restaurantRepository.deleteAll();
     }
 
     public Restaurant[] getRestaurantList(String search, String filter){
@@ -33,9 +38,12 @@ public class RestaurantManager {
     public Restaurant saveRestaurant(String name, String address, String city,
                                      String zip, String county,String inspectionType,
                                      String inspectionDate, String violations){
+
         Restaurant restaurant = new Restaurant(name,address,city,zip,county,inspectionType,inspectionDate,violations);
         restaurantRepository.save(restaurant);
         return  restaurant;
     }
+
+
 
 }
