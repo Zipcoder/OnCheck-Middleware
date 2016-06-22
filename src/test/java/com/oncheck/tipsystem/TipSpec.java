@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class TipSpec {
 
     TipFactory tipFactory = new TipFactory();
-    Tip tip = tipFactory.createTip("derp", "C:/tip/hairinmahfood.jpg");
+    Tip tip = tipFactory.createTip("derp", "C:/tip/hairinmahfood.jpg", 5L);
 
     @Test
     public void tipCreationTest() {
