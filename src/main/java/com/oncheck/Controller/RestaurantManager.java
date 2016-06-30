@@ -3,7 +3,9 @@ package com.oncheck.Controller;
 import com.oncheck.Domain.Restaurant;
 import com.oncheck.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,8 +20,22 @@ public class RestaurantManager {
 
     @RequestMapping("/restaurants")
     public Iterable<Restaurant> getAllRestaurant(){
-        saveRestaurant("test","123 fake","wilmin","12345","chester","Other","1/2004/5","12321");
         return restaurantRepository.findAll();
+    }
+
+    @RequestMapping(value = "/restaurants/searchByID/{id}", method = RequestMethod.GET)
+    public Restaurant findByRestaurantID(@PathVariable String id){
+        return restaurantRepository.findByRestaurantID(id);
+    }
+
+    @RequestMapping(value = "/restaurants/searchByCity/{city}", method = RequestMethod.GET)
+    public Iterable<Restaurant> findByRestaurantCity(@PathVariable String city){
+        return restaurantRepository.findByCity(city);
+    }
+
+    @RequestMapping(value = "/restaurants/searchByZip/{zip}", method = RequestMethod.GET)
+    public Iterable<Restaurant> findByRestaurantZip(@PathVariable String zip){
+        return restaurantRepository.findByZip(zip);
     }
 
     @RequestMapping("/delRest")
@@ -29,6 +45,10 @@ public class RestaurantManager {
 
     public Restaurant[] getRestaurantList(String search, String filter){
         return null;
+    }
+
+    public RestaurantRepository getRestaurantRepository() {
+        return restaurantRepository;
     }
 
     public Restaurant getRandomRestaurant(){
