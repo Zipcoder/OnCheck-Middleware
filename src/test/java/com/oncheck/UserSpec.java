@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by alejandrolondono on 6/21/16.
- */
+
 public class UserSpec {
 
     User randy;
@@ -21,7 +19,8 @@ public class UserSpec {
 
     @Test
     public void addToMyEats() throws Exception {
-
+        Restaurant expectedValue = mcDonalds;
+        Restaurant actualValue = randy.addToMyEats();
     }
 
     @Test

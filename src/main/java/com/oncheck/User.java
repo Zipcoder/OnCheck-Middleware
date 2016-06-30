@@ -27,9 +27,9 @@ public class User {
 
     public User(String userId, String username, String email, String password){
         this.userId = userId;
-        this.username=username;
-        this.email=email;
-        this.password=password;
+        this.username = username;
+        this.email = email;
+        this.password = password;
         this.myEats = new TreeMap<String, Restaurant>();
     }
 
@@ -65,7 +65,14 @@ public class User {
         this.password = password;
     }
 
-    public void addToMyEats(String id){}
+    public void addToMyEats(String id){
+
+        myEats.add(String, Restaurant);
+
+    }
+
+
+
     public void removeFromMyEats(String id){}
 
 }

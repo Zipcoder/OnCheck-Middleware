@@ -1,7 +1,10 @@
 package com.oncheck;
 
-/**
- * Created by alejandrolondono on 6/21/16.
- */
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 public class Restaurant {
+
+
+    Restaurant restaurant = new Restaurant(id);
+
 }
