@@ -1,6 +1,7 @@
 package com.oncheck;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Entity
@@ -9,7 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="USER_ID")
-    private String userId;
+    private Long userId;
 
     @Column(name="USERNAME")
     private String username;
@@ -20,24 +21,31 @@ public class User {
     @Column(name="PASSWORD")
     private String password;
 
+    @Column(name="LOGGEDIN")
+    private boolean loggedIn;
+
+
     @OneToMany
     @JoinColumn(name="RESTAURANT_ID")
-    public int myEatsCounter = 0;
-    private HashMap<Integer, Restaurant> myEats;
+    private ArrayList<Restaurant> myEats;
 
-    public User(String userId, String username, String email, String password){
-        this.userId = userId;
+    public User(Long userID){
+        this.userId = userID;
+    }
+
+    public User(String username, String email, String password, boolean loggedIn){
         this.username = username;
         this.email = email;
         this.password = password;
-        this.myEats = new HashMap<Integer, Restaurant>();
+        this.loggedIn = loggedIn;
+        this.myEats = new ArrayList<Restaurant>();
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -65,20 +73,18 @@ public class User {
         this.password = password;
     }
 
-    public Restaurant addToMyEats(Restaurant restaurant){
+    public Restaurant addToMyEats(Restaurant restaurantID){
 
-        myEatsCounter++;
-        myEats.put(myEatsCounter,restaurant);
-        return restaurant;
+        myEats.add(restaurantID);
+        return restaurantID;
 
     }
 
 
 
-    public boolean removeFromMyEats(Restaurant restaurant){
+    public boolean removeFromMyEats(Restaurant restaurantID){
 
-        myEatsCounter--;
-        myEats.remove(myEatsCounter,restaurant);
+        myEats.remove(restaurantID);
         return false;
     }
 

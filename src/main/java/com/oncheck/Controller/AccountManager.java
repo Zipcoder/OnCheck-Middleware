@@ -1,21 +1,12 @@
-package com.oncheck;
+package com.oncheck.Controller;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.security.auth.login.LoginException;
+import org.springframework.web.bind.annotation.RestController;
 
-@Entity
+@RestController
 public class AccountManager {
 
-    @Id
-    @GeneratedValue
-
-    User user = new User();
-
     boolean accountLogin(){
-
+        return false;
     }
 
     void readAccount() {

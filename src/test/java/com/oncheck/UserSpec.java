@@ -13,7 +13,7 @@ public class UserSpec {
 
     @Before
     public void setUp() throws Exception {
-        randy = new User("12","RandyDoodle3457", "itsRaaaaaaandy@gmail.net", "smash");
+        randy = new User("RandyDoodle3457", "itsRaaaaaaandy@gmail.net", "smash", true);
         mcDonalds = new Restaurant();
     }
 
