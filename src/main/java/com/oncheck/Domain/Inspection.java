@@ -1,7 +1,5 @@
 package com.oncheck.Domain;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.persistence.*;
 
 /**
