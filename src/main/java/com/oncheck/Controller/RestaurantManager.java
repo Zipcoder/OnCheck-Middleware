@@ -7,6 +7,7 @@ import com.oncheck.Scraper.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -39,17 +40,6 @@ public class RestaurantManager {
         Restaurant restaurant = new Restaurant(name,address,city,zip,county,inspectionType,inspectionDate,violations);
         restaurantRepository.save(restaurant);
         return  restaurant;
-    }
-
-    @RequestMapping ("/add")
-    public void saveAll(){
-        Scraper scraper = new Scraper();
-        for(com.oncheck.Scraper.Inspection inspection : scraper.inspections){
-            Restaurant restaurant = new Restaurant();
-            restaurant.setRestaurantName(inspection.getEntity());
-            restaurant.setRestaurantAddress(inspection.getAddress());
-            restaurantRepository.save(restaurant);
-        }
     }
 
 }

@@ -1,14 +1,13 @@
 package com.oncheck.Scraper;
 
-import com.oncheck.Controller.RestaurantManager;
 import com.oncheck.Domain.*;
-import com.oncheck.Domain.Inspection;
 import com.oncheck.Repository.RestaurantRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
@@ -16,7 +15,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
 
 /**
  * Created by stevejaminson on 6/14/16.
@@ -24,13 +22,11 @@ import java.util.ArrayList;
 @Component
 public class Scraper {
 
-    public ArrayList<com.oncheck.Scraper.Inspection> inspections = new ArrayList<>();
-    URL url;
-    InputStream is = null;
-    BufferedReader br;
-    BufferedWriter bw;
-    String full = "empty";
-    String line;
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
+    private URL url;
+    private InputStream is = null;
     private File file = new File("/Users/stevejaminson/Dev/Labs/InspectionWebScraper/Test.html"); //This is a local file
     private Elements rows;
 
@@ -113,36 +109,19 @@ public class Scraper {
      * @param rows
      */
     public void parseAndPopulate(Elements rows){
-        int count = 0;
         for(Element row : rows){
-            inspections.add(new com.oncheck.Scraper.Inspection());
             String[] line = row.toString().split("<td(.*?)>");
             for(int i = 0; i < line.length; i++){
-                line[i] = line[i].replaceAll("<a(.*?)?>|<tr(.*?)?>|<td(.*?)?>|<span(.*?)?>|</span>|</td>|</a>|</tr>|\\n","");
+                line[i] = line[i].replaceAll("<a(.*?)?>|<tr(.*?)?>|<td(.*?)?>|<span(.*?)?>|<br>|</span>|</td>|</a>|</tr>|\\n","");
                 line[i] = line[i].trim();
             }
-            inspections.get(count).setEntity(line[1]);
-            inspections.get(count).setAddress(line[2]);
-            inspections.get(count).setCity(line[3]);
-            inspections.get(count).setZipCode(line[4]);
-            inspections.get(count).setCounty(line[5]);
-            inspections.get(count).setInspectionType(line[6]);
-            inspections.get(count).setDate(line[7]);
-            inspections.get(count).setViolations(line[8]);
-            count++;
+            restaurantRepository.save(new Restaurant(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8]));
         }
     }
-
+    @Scheduled(fixedRate = 604800000)
     public void runScraper(){
 //        try {
         parseAndPopulate(getRows(getTableElement(fileToDocument(file))));
-        System.out.println("Total: " + inspections.size()+"\n");
-        System.out.println(inspections.get(0).getAll());
-        System.out.println(inspections.get(10).getAll());
-        System.out.println(inspections.get(100).getAll());
-        System.out.println(inspections.get(1000).getAll());
-        System.out.println(inspections.get(10000).getAll());
-        System.out.println(inspections.get(59108).getAll());
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
