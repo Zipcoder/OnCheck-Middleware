@@ -1,7 +1,9 @@
 package com.oncheck.Controller;
 
+import com.oncheck.Domain.Inspection;
 import com.oncheck.Domain.Restaurant;
 import com.oncheck.Repository.RestaurantRepository;
+import com.oncheck.Scraper.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantManager {
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
 
     @RequestMapping("/restaurants")
