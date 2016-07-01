@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.security.auth.login.LoginException;
 
 @Entity
 public class AccountManager {
@@ -11,6 +12,11 @@ public class AccountManager {
     @Id
     @GeneratedValue
 
+    User user = new User();
+
+    boolean accountLogin(){
+
+    }
 
     void readAccount() {
 

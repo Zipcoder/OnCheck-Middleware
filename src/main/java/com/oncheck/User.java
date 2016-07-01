@@ -1,10 +1,7 @@
 package com.oncheck;
 
 import javax.persistence.*;
-import java.util.Map;
-import java.util.TreeMap;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import java.util.HashMap;
 
 @Entity
 public class User {
@@ -26,14 +23,14 @@ public class User {
     @OneToMany
     @JoinColumn(name="RESTAURANT_ID")
     public int myEatsCounter = 0;
-    private Map<Integer, Restaurant> myEats;
+    private HashMap<Integer, Restaurant> myEats;
 
     public User(String userId, String username, String email, String password){
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.myEats = new TreeMap<Integer, Restaurant>();
+        this.myEats = new HashMap<Integer, Restaurant>();
     }
 
     public String getUserId() {
@@ -78,6 +75,11 @@ public class User {
 
 
 
-    public void removeFromMyEats(String id){}
+    public boolean removeFromMyEats(Restaurant restaurant){
+
+        myEatsCounter--;
+        myEats.remove(myEatsCounter,restaurant);
+        return false;
+    }
 
 }
