@@ -2,7 +2,6 @@ package com.oncheck;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Entity
 public class User {
@@ -24,16 +23,15 @@ public class User {
     @Column(name="LOGGEDIN")
     private boolean loggedIn;
 
-
     @OneToMany
     @JoinColumn(name="RESTAURANT_ID")
     private ArrayList<Restaurant> myEats;
 
-    public User(Long userID){
+    private User(Long userID){
         this.userId = userID;
     }
 
-    public User(String username, String email, String password, boolean loggedIn){
+    private User(String username, String email, String password, boolean loggedIn){
         this.username = username;
         this.email = email;
         this.password = password;
@@ -74,16 +72,11 @@ public class User {
     }
 
     public Restaurant addToMyEats(Restaurant restaurantID){
-
         myEats.add(restaurantID);
         return restaurantID;
-
     }
 
-
-
     public boolean removeFromMyEats(Restaurant restaurantID){
-
         myEats.remove(restaurantID);
         return false;
     }
