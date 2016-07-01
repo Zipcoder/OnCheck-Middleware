@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Entity
 public class User {
 
@@ -23,14 +25,15 @@ public class User {
 
     @OneToMany
     @JoinColumn(name="RESTAURANT_ID")
-    private Map<String, Restaurant> myEats;
+    public int myEatsCounter = 0;
+    private Map<Integer, Restaurant> myEats;
 
     public User(String userId, String username, String email, String password){
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.myEats = new TreeMap<String, Restaurant>();
+        this.myEats = new TreeMap<Integer, Restaurant>();
     }
 
     public String getUserId() {
@@ -65,9 +68,11 @@ public class User {
         this.password = password;
     }
 
-    public void addToMyEats(String id){
+    public Restaurant addToMyEats(Restaurant restaurant){
 
-        myEats.add(String, Restaurant);
+        myEatsCounter++;
+        myEats.put(myEatsCounter,restaurant);
+        return restaurant;
 
     }
 

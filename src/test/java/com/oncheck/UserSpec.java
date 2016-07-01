@@ -3,6 +3,7 @@ package com.oncheck;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.apache.coyote.http11.Constants.a;
 import static org.junit.Assert.*;
 
 
@@ -19,8 +20,10 @@ public class UserSpec {
 
     @Test
     public void addToMyEats() throws Exception {
+//        randy.addToMyEats(mcDonalds);
         Restaurant expectedValue = mcDonalds;
-        Restaurant actualValue = randy.addToMyEats();
+        Restaurant actualValue=randy.addToMyEats(mcDonalds);
+        assertEquals(expectedValue,actualValue);
     }
 
     @Test
