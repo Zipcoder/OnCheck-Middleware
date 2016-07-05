@@ -1,4 +1,4 @@
-package com.oncheck.tipSystem;
+package com.oncheck.Domain;
 
 import javax.persistence.Id;
 import javax.persistence.Column;

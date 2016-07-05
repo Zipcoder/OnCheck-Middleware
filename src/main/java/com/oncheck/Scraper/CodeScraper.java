@@ -1,7 +1,8 @@
 package com.oncheck.Scraper;
 
+
 import com.oncheck.Domain.*;
-import com.oncheck.Repository.RestaurantRepository;
+import com.oncheck.Repository.CodeRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,35 +16,30 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
 
 /**
- * Created by stevejaminson on 6/14/16.
+ * Created by stevejaminson on 7/1/16.
  */
 @Component
-public class Scraper {
+public class CodeScraper {
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    CodeRepository codeRepository;
 
-    private URL url;
+    public URL url;
     private InputStream is = null;
-    private File file = new File("/Users/stevejaminson/Dev/Labs/InspectionWebScraper/Test.html"); //This is a local file
+    private File file = new File("/Users/stevejaminson/Dev/Labs/InspectionWebScraper/CodeTest.html"); //This is a local file
     private Elements rows;
 
-    /**
-     * This method retrieves the html file from the DHSS Food Establishment Inspection Reports webpage.
-     * This method, due to the Thread.sleep functionality and due to the size of the html file, takes
-     * roughly 4 minutes and 40 seconds. The Thread.sleep is 3 minutes to give the webpage time to load.
-     * @throws IOException
-     */
     public File getDocument() throws IOException {
-        String inspection = "http://dhss.delaware.gov/dhss/dph/hsp/Default.aspx?listAll=1&sort=Establishment";
-        File stateData = new File("/Users/stevejaminson/Dev/Labs/InspectionWebScraper/Test.html");
+        String inspection = "http://www.dhss.delaware.gov/dhss/dph/hsp/fic.html";
+        File stateData = new File("/Users/stevejaminson/Dev/Labs/InspectionWebScraper/CodeTest.html");
         URL url = new URL(inspection);
         try {
             is = url.openStream();
             try {
-                Thread.sleep(210*1000);
+                Thread.sleep(5*1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -53,9 +49,7 @@ public class Scraper {
         }
         return stateData;
     }
-    /**
-     * This will connect to the @param dataSite and download the html file to the @param destination.
-     */
+
     public void downloadFileFromSite(String dataSite, File destination) {
         try {
             URL website = new URL(dataSite);
@@ -91,7 +85,7 @@ public class Scraper {
      * @return
      */
     public Element getTableElement(Document doc){
-        Element table = doc.select("table.datagrid").first();
+        Element table = doc.select("table.center").first();
         return table;
     }
 
@@ -100,7 +94,7 @@ public class Scraper {
      * @param table
      */
     public Elements getRows(Element table){
-        rows = table.select("tr.datagridItem, tr.datagridAlternatingItem");
+        rows = table.select("td.left");
         return rows;
     }
 
@@ -109,22 +103,26 @@ public class Scraper {
      * @param rows
      */
     public void parseAndPopulate(Elements rows){
+        ArrayList<String> lines = new ArrayList<>();
+        int count = 1;
         for(Element row : rows){
             String[] line = row.toString().split("<td(.*?)>");
-            for(int i = 0; i < line.length; i++){
-                line[i] = line[i].replaceAll("<a(.*?)?>|<tr(.*?)?>|<td(.*?)?>|<span(.*?)?>|<br>|</span>|</td>|</a>|</tr>|\\n","");
+            for (int i = 1; i < line.length; i++) {
+                line[i] = line[i].replaceAll("<a(.*?)?>|<tr(.*?)?>|<td(.*?)?>|<span(.*?)?>|<br>|</span>|</td>|</a>|</tr>|\\n", "");
+//                line[i] = line[i].replaceAll("\\.", "_");
                 line[i] = line[i].trim();
             }
-            restaurantRepository.save(new Restaurant(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8]));
+            lines.add(line[1]);
+            if(count % 4 == 0){
+                codeRepository.save(new Code(lines.get(0), lines.get(1), lines.get(2), lines.get(3)));
+                lines.clear();
+            }
+            count++;
         }
     }
-    @Scheduled(fixedRate = 604800000)
-    public void runScraper(){
-//        try {
-        parseAndPopulate(getRows(getTableElement(fileToDocument(file))));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
 
+    @Scheduled(fixedRate = 604800000)
+    public void runCodeScraper(){
+        parseAndPopulate(getRows(getTableElement(fileToDocument(file))));
+    }
 }
