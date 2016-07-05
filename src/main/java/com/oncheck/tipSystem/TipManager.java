@@ -20,7 +20,7 @@ public class TipManager {
     TipRepository tipRepository;
 
     @RequestMapping(value ="/tips", method= RequestMethod.POST)
-    public ResponseEntity<?> createTip(@RequestBody Tip tip) {
+    public ResponseEntity<?> createTip(@ModelAttribute Tip tip) {
 
         tipRepository.save(tip);
         HttpHeaders responseHeaders = new HttpHeaders();
