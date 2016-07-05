@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="USER_ID")
     private Long userId;
 
@@ -70,6 +70,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public ArrayList<Restaurant> getMyEats() { return myEats; }
+
+    public void setMyEats(ArrayList<Restaurant> myEats) { this.myEats = myEats}
 
     public Restaurant addToMyEats(Restaurant restaurantID){
         myEats.add(restaurantID);
