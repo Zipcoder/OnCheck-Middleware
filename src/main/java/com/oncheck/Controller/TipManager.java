@@ -36,7 +36,6 @@ public class TipManager {
     @RequestMapping(value ="/tips", method= RequestMethod.GET)
     public ResponseEntity<Iterable<Tip>> getTips() {
         Iterable<Tip> allTips = tipRepository.findAll();
-
         return new ResponseEntity<>(tipRepository.findAll(), HttpStatus.OK);
     }
 
