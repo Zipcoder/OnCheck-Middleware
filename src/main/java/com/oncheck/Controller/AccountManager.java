@@ -24,7 +24,7 @@ public class AccountManager {
     @RequestMapping(value = "/account/read/{userID}", method = RequestMethod.GET)
     @ResponseBody
     public void readAccount() {
-        return username;
+        return userID;
     }
 
     @RequestMapping
