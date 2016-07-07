@@ -19,20 +19,21 @@ public class Tip {
     @Column(name="EVIDENCE")
     private String evidence;
 
-    @Column(name="USER_ID")
+    @Column(name="USERID")
     private Long userId;
 
-    @Column(name="LOCATION_ID")
+    @Column(name="LOCATIONID")
     private String locationId;
 
     public Tip() {
 
     }
 
-    public Tip(String message, String evidence, Long userId) {
+    public Tip(String message, String evidence, Long userId, String locationId) {
         this.message = message;
         this.evidence = evidence;
         this.userId = userId;
+        this.locationId = locationId;
     }
 
     public Long getId() {
@@ -57,5 +58,21 @@ public class Tip {
 
     public void setEvidence(String evidence) {
         this.evidence = evidence;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 }
