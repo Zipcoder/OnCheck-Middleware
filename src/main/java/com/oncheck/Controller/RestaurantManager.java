@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantManager {
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
 
     @RequestMapping("/restaurants")

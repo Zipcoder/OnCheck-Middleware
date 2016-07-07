@@ -1,6 +1,6 @@
 package com.oncheck.tipsystem;
 
-import com.oncheck.tipSystem.Tip;
+import com.oncheck.Domain.Tip;
 import com.oncheck.tipSystem.TipFactory;
 import org.junit.Test;
 

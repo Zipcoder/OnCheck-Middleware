@@ -36,7 +36,7 @@ public class Restaurant {
     @Column
     private int onCheckScore;
 
-    Restaurant(){
+    public Restaurant(){
     }
 
 

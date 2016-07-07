@@ -1,5 +1,6 @@
-package com.oncheck.tipSystem;
+package com.oncheck.Repository;
 
+import com.oncheck.Domain.Tip;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
