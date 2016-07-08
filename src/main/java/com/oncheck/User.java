@@ -22,16 +22,18 @@ public class User {
 
     @Column(name="LOGGEDIN")
     private boolean loggedIn;
-
-    @OneToMany
-    @JoinColumn(name="RESTAURANT_ID")
+//
+//    @OneToMany
+//    @JoinColumn(name="RESTAURANT_ID")
     private ArrayList<Restaurant> myEats;
 
-    private User(Long userID){
+    public User(Long userID){
         this.userId = userID;
     }
 
-    private User(String username, String email, String password, boolean loggedIn){
+    public User() {};
+
+    public User(String username, String email, String password, boolean loggedIn){
         this.username = username;
         this.email = email;
         this.password = password;
@@ -73,16 +75,13 @@ public class User {
 
     public ArrayList<Restaurant> getMyEats() { return myEats; }
 
-    public void setMyEats(ArrayList<Restaurant> myEats) { this.myEats = myEats}
+    public void setMyEats(ArrayList<Restaurant> myEats) { this.myEats = myEats;}
 
-    public Restaurant addToMyEats(Restaurant restaurantID){
-        myEats.add(restaurantID);
-        return restaurantID;
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
-    public boolean removeFromMyEats(Restaurant restaurantID){
-        myEats.remove(restaurantID);
-        return false;
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
-
 }

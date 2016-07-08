@@ -17,12 +17,12 @@ public class UserSpec {
         mcDonalds = new Restaurant();
     }
 
-    @Test
-    public void addToMyEatsTest() throws Exception {
-        Restaurant expectedValue = mcDonalds;
-        Restaurant actualValue=randy.addToMyEats(mcDonalds);
-        assertEquals(expectedValue,actualValue);
-    }
+//    @Test
+//    public void addToMyEatsTest() throws Exception {
+//        Restaurant expectedValue = mcDonalds;
+//        Restaurant actualValue=randy.addToMyEats(mcDonalds);
+//        assertEquals(expectedValue,actualValue);
+//    }
 
     @Test
     public void removeFromMyEatsTest() throws Exception {
