@@ -29,13 +29,6 @@ public class Tip {
 
     }
 
-    public Tip(String message, String evidence, Long userId, String locationId) {
-        this.message = message;
-        this.evidence = evidence;
-        this.userId = userId;
-        this.locationId = locationId;
-    }
-
     public Long getId() {
         return Id;
     }
