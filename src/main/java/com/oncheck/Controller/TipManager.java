@@ -19,7 +19,7 @@ public class TipManager {
     TipRepository tipRepository;
 
     @RequestMapping(value ="/tips", method= RequestMethod.POST)
-    public ResponseEntity<?> createTip(@RequestBody Tip tip) {
+    public ResponseEntity<?> createTip(@ModelAttribute Tip tip) {
 
         tipRepository.save(tip);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -34,9 +34,8 @@ public class TipManager {
     }
 
     @RequestMapping(value ="/tips", method= RequestMethod.GET)
-    public ResponseEntity<Iterable<Tip>> getTips() {
-        Iterable<Tip> allTips = tipRepository.findAll();
-        return new ResponseEntity<>(tipRepository.findAll(), HttpStatus.OK);
+    public Iterable<Tip> getTips() {
+        return tipRepository.findAll();
     }
 
     @RequestMapping(value ="/tips/{userId}", method= RequestMethod.GET)
