@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
 
@@ -20,7 +21,6 @@ public class TipManager {
 
     @RequestMapping(value ="/tips", method= RequestMethod.POST)
     public ResponseEntity<?> createTip(@ModelAttribute Tip tip) {
-
         tipRepository.save(tip);
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newPollUri = ServletUriComponentsBuilder
@@ -33,16 +33,17 @@ public class TipManager {
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @RequestMapping(value ="/tips", method= RequestMethod.GET)
-    public Iterable<Tip> getTips() {
+    public Iterable<Tip> getTips(HttpServletResponse response) {
+
         return tipRepository.findAll();
     }
 
+    @CrossOrigin
     @RequestMapping(value ="/tips/{userId}", method= RequestMethod.GET)
-    public ResponseEntity<Iterable<Tip>> getUserTips(@PathVariable Long userId) {
-        Iterable<Tip> userTips = tipRepository.findTipByUser(userId);
-
-        return new ResponseEntity<>(tipRepository.findTipByUser(userId), HttpStatus.OK);
+    public Iterable<Tip> getUserTips(@PathVariable Long userId) {
+        return tipRepository.findTipByUser(userId);
     }
 
 //    private void submitTip(Tip tip) {

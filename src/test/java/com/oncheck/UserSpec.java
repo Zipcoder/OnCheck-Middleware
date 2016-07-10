@@ -1,5 +1,6 @@
 package com.oncheck;
 
+import com.oncheck.Domain.Restaurant;
 import com.oncheck.Domain.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,3 +16,4 @@ public class UserSpec {
         randy = new User("RandyDoodle3457", "itsRaaaaaaandy@gmail.net", "smash", true);
         mcDonalds = new Restaurant();
     }
+}
