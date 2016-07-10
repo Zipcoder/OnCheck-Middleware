@@ -3,10 +3,7 @@ package com.oncheck.Controller;
 import com.oncheck.Domain.Restaurant;
 import com.oncheck.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by brianabbott on 6/16/16.
@@ -23,6 +20,7 @@ public class RestaurantManager {
         return restaurantRepository.findAll();
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/restaurants/searchByID/{id}", method = RequestMethod.GET)
     public Restaurant findByRestaurantID(@PathVariable String id){
         return restaurantRepository.findByRestaurantID(id);

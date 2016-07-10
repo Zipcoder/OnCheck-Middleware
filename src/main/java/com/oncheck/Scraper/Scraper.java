@@ -38,7 +38,9 @@ public class Scraper {
      */
     public File getDocument() throws IOException {
         String inspection = "http://dhss.delaware.gov/dhss/dph/hsp/Default.aspx?listAll=1&sort=Establishment";
+
         File stateData = new File("/Users/wesleytraute/documents/scraperFiles/Test.html");
+
         URL url = new URL(inspection);
         try {
             is = url.openStream();
