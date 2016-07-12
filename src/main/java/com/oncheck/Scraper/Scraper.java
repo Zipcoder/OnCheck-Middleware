@@ -27,7 +27,7 @@ public class Scraper {
 
     private URL url;
     private InputStream is = null;
-    private File file = new File("/Users/wesleytraute/documents/scraperFiles/Test.html"); //This is a local file
+    private File file = new File("/Users/brianabbott/Dev/Labs/InspectionWebScraper/Test.html"); //This is a local file
     private Elements rows;
 
     /**
@@ -39,7 +39,7 @@ public class Scraper {
     public File getDocument() throws IOException {
         String inspection = "http://dhss.delaware.gov/dhss/dph/hsp/Default.aspx?listAll=1&sort=Establishment";
 
-        File stateData = new File("/Users/wesleytraute/documents/scraperFiles/Test.html");
+        File stateData = new File("/Users/brianabbott/Dev/Labs/InspectionWebScraper/Test.html");
 
         URL url = new URL(inspection);
         try {
