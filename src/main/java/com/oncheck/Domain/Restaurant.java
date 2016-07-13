@@ -1,6 +1,8 @@
 package com.oncheck.Domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -29,9 +31,8 @@ public class Restaurant {
     @Column(name = "RESTAURANT_ID")
     private String restaurantID;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="INSPECTION_ID")
-    private Inspection inspections;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Inspection> inspections = new ArrayList<>();
 
     @Column
     private int onCheckScore;
@@ -41,13 +42,14 @@ public class Restaurant {
 
 
     public Restaurant(String restaurantName, String restaurantAddress, String city,String zip, String county,String inspectionType,String inspectionDate,String violations){
+
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
         this.restaurantID = restaurantName+restaurantAddress;
         this.city = city;
         this.zip = zip;
         this.county = county;
-        this.inspections = new Inspection(inspectionType,inspectionDate,violations);
+        this.inspections.add(new Inspection(inspectionType,inspectionType,violations));
     }
 
     public String getRestaurantName(){
@@ -62,12 +64,16 @@ public class Restaurant {
         this.id = id;
     }
 
-    public Inspection getInspections() {
+    public List<Inspection> getInspections() {
         return inspections;
     }
 
-    public void setInspections(Inspection inspections) {
+    public void setInspections(List<Inspection> inspections) {
         this.inspections = inspections;
+    }
+
+    public void addInspection(Inspection inspection){
+        this.inspections.add(inspection);
     }
 
     public String getRestaurantID() {
