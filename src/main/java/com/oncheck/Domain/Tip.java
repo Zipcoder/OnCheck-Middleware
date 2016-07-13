@@ -29,10 +29,20 @@ public class Tip {
 
     }
 
-    public Tip(String message, String evidence, Long userId) {
-        this.message = message;
-        this.evidence = evidence;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
     public Long getId() {
