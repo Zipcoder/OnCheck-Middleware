@@ -19,11 +19,11 @@ public class UserManager {
     }
 
 
-    @RequestMapping(value = "/account/read/{userID}", method = RequestMethod.GET)
-    @ResponseBody
-    public User readAccount(@PathVariable Long userID) {
-        return userRepository.get(userID);
-    }
+//    @RequestMapping(value = "/account/read/{userID}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public User readAccount(@PathVariable Long userID) {
+//        return userRepository.get(userID);
+//    }
 
 //    @RequestMapping
 //    @ResponseBody(value = "account/update/{userID}", method = RequestMethod.PUT)
@@ -33,12 +33,12 @@ public class UserManager {
 
 //    }
 
-    @RequestMapping(value = "account/delete/{userID}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public void deleteAccount(@PathVariable Long userID) {
-        userRepository.deleteAccount(userID);
-
-    }
+//    @RequestMapping(value = "account/delete/{userID}", method = RequestMethod.DELETE)
+//    @ResponseBody
+//    public void deleteAccount(@PathVariable Long userID) {
+//        userRepository.deleteAccount(userID);
+//
+//    }
 
     @RequestMapping(value = "account/create/{userID}", method = RequestMethod.POST)
     @ResponseBody

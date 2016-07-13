@@ -9,12 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User,Long> {
 
-    public User createAccount(String username);
-
-    public User get(Long userID);
-
-    public void updateAccount(User userID);
-
-    public void deleteAccount(Long userId);
 
 }

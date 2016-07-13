@@ -1,7 +1,6 @@
 package com.oncheck.SingleSignOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -17,7 +16,9 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilt
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
+
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -33,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.logging.Filter;
 
 @SpringBootApplication
 @EnableOAuth2Client
@@ -69,15 +71,28 @@ public class SingleSignOn extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .antMatcher("/**")
+                .authorizeRequests()
+                .antMatchers("/", "/login**", "/webjars/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
+                .csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+    }
+
     private Filter ssoFilter() {
         OAuth2ClientAuthenticationProcessingFilter facebookFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/facebook");
         OAuth2RestTemplate facebookTemplate = new OAuth2RestTemplate(facebook(), oauth2ClientContext);
         facebookFilter.setRestTemplate(facebookTemplate);
         facebookFilter.setTokenServices(new UserInfoTokenServices(facebookResource().getUserInfoUri(), facebook().getClientId()));
-        return (Filter) facebookFilter;
+        return facebookFilter;
     }
 
-    private OncePerRequestFilter csrfHeaderFilter() {
+    private Filter csrfHeaderFilter() {
         return new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -102,23 +117,13 @@ public class SingleSignOn extends WebSecurityConfigurerAdapter {
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .antMatcher("/**")
-                    .authorizeRequests()
-                    .antMatchers("/", "/login**", "/webjars/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
-                    .csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
-        }
 
 
 
-        public static void main(String[] args) {
-            SpringApplication.run(SingleSignOn.class, args);
-        }
+
+//        public static void main(String[] args) {
+//            SpringApplication.run(SingleSignOn.class, args);
+//        }
     }
 
 
