@@ -1,6 +1,7 @@
 package com.oncheck.Scraper;
 
 import com.oncheck.Domain.*;
+import com.oncheck.Repository.InspectionRepository;
 import com.oncheck.Repository.RestaurantRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +25,9 @@ public class Scraper {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    InspectionRepository inspectionRepository;
 
     private URL url;
     private InputStream is = null;
@@ -117,12 +121,29 @@ public class Scraper {
                 line[i] = line[i].replaceAll("<a(.*?)?>|<tr(.*?)?>|<td(.*?)?>|<span(.*?)?>|<br>|</span>|</td>|</a>|</tr>|\\n","");
                 line[i] = line[i].trim();
             }
-            restaurantRepository.save(new Restaurant(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8]));
-        }
+
+            if(line[1].toLowerCase().contains("school") || line[1].toLowerCase().contains("elementary")  ){
+                continue;
+            }
+
+            if(restaurantRepository.findByRestaurantID(line[1]+line[2]) == null) {
+                Restaurant restaurant = new Restaurant(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8]);
+                restaurantRepository.save(restaurant);
+            } else {
+               Restaurant rewrite = restaurantRepository.findByRestaurantID(line[1]+line[2]);
+                Inspection inspection = new Inspection(line[6],line[7],line[8]);
+                rewrite.addInspection(inspection);
+                restaurantRepository.save(rewrite);
+            }
+
+
+            }
     }
     @Scheduled(fixedRate = 604800000)
     public void runScraper(){
 //        try {
+        restaurantRepository.deleteAll();
+        inspectionRepository.deleteAll();
         parseAndPopulate(getRows(getTableElement(fileToDocument(file))));
 //        } catch (IOException e) {
 //            e.printStackTrace();
