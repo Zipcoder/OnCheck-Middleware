@@ -16,9 +16,9 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilt
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
-
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
-
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,13 +41,13 @@ import java.security.Principal;
 @RestController
 public class SingleSignOn extends WebSecurityConfigurerAdapter {
 
-        @Autowired
+    @Autowired
     OAuth2ClientContext oauth2ClientContext;
 
-        @RequestMapping("/user")
-        public Principal user(Principal principal) {
-            return principal;
-        }
+    @RequestMapping("/user")
+    public Principal user(Principal principal) {
+        return principal;
+    }
 
     @Bean
     @ConfigurationProperties("facebook.client")
@@ -79,8 +78,11 @@ public class SingleSignOn extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login**", "/webjars/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated().and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
-                .csrfTokenRepository(csrfTokenRepository()).and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+                .and().logout().logoutSuccessUrl("/").permitAll()
+                .and().csrf().csrfTokenRepository(csrfTokenRepository())
+                .and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
     }
 
@@ -124,6 +126,4 @@ public class SingleSignOn extends WebSecurityConfigurerAdapter {
 //        public static void main(String[] args) {
 //            SpringApplication.run(SingleSignOn.class, args);
 //        }
-    }
-
-
+}

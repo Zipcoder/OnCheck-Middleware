@@ -21,9 +21,9 @@
 </div>
 <div class="container" ng-show="home.authenticated">
     Logged in as: <span ng-bind="home.user"></span>
-    <div>
-        <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
-    </div>
+</div>
+<div>
+    <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
 </div>
 
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -37,20 +37,29 @@
             self.user = "N/A";
             self.authenticated = false;
         });
+        self.logout = function() {
+            $http.post('/logout', {}).success(function() {
+                self.authenticated = false;
+                $location.path("/");
+            }).error(function(data) {
+                console.log("Logout failed")
+                self.authenticated = false;
+            });
+        };
     });
 
-    angular.module("app", []).controller("home", function($http, $location) {
-                var self = this;
-                self.logout = function() {
-                    $http.post('/logout', {}).success(function() {
-                        self.authenticated = false;
-                        $location.path("/");
-                    }).error(function(data) {
-                        console.log("Logout failed")
-                        self.authenticated = false;
-                    });
-                };
-            });
+//    angular.module("app", []).controller("home", function($http, $location) {
+//                var self = this;
+//                self.logout = function() {
+//                    $http.post('/logout', {}).success(function() {
+//                        self.authenticated = false;
+//                        $location.path("/");
+//                    }).error(function(data) {
+//                        console.log("Logout failed")
+//                        self.authenticated = false;
+//                    });
+//                };
+//            });
 
 </script>
 
